@@ -11,6 +11,9 @@ d<!DOCTYPE html>
       padding: 0;
       margin: 0;
     }
+    body{
+    overflow-x:hidden;
+    }
   </style>
 </head>
 <body style="background-color: lightblue;">
@@ -24,7 +27,7 @@ d<!DOCTYPE html>
     </div>
   </form>
 
-  <div class="row cards" style='width:100vw'></div>
+  <div class="row cards justify-content-between"></div>
       <div class='spinner-border d-none position-absolute start-50 top-50 translate-middle found'></div>
   <script>
     const btn = document.querySelector('.main-fetch');
