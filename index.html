@@ -43,9 +43,9 @@
       fetch('https://weather64.github.io/weather-app/apikey.json')
         .then(res => res.json())
         .then(data => {
-          const apikey = data.apikey;
+          
 
-          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric`)
+          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${data.apikey}&units=metric`)
             .then(res => res.json())
             .then(js => {
               cards.innerHTML = '';
