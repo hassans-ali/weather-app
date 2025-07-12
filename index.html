@@ -40,7 +40,7 @@
         return;
       }
 
-      fetch('apikey.json')
+      fetch('https://weather64.github.io/weather-app/apikey.json')
         .then(res => res.json())
         .then(data => {
           const apikey = data.apikey;
