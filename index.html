@@ -39,7 +39,7 @@
         cards.innerHTML = '<h1 style="color:red">Please enter a city name</h1>';
         return;
       }
-
+try{
       fetch('https://32b3cafc-e3fa-4ed1-a18d-34e7e701d0a6-00-1722rgpwfnxtm.sisko.replit.dev/apikey')
         .then(res => res.json())
         .then(data => {
@@ -88,7 +88,9 @@
           cards.innerHTML = `<h1 style="color:red">Failed to load API key</h1>`;
         });
     });
-
+    }catch(e){
+    console.log(e)
+    }
     const night = document.querySelector('.night');
     night.addEventListener('click', (e) => {
       e.preventDefault();
