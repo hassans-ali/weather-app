@@ -35,10 +35,11 @@
     btn.addEventListener('click',(e)=>{
       e.preventDefault()
     const country=inp.value;
-   
+   let js;
+   fetch('https://weather64.github.io/weather-app/apikey.json').then(data=>data.json()).then(json=>{js=json})
 
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${country}&appid=${apikey}&units=metric`).then((res)=>res.json()).then((json)=>{
-   console.log(json)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${country}&appid=${js}&units=metric`).then((res)=>res.json()).then((json)=>{
+   
   
       const js=json;
 const cards=document.querySelector('.cards');
