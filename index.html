@@ -1,127 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1163/1163624.png" type="image/png"/>
-  <title>Weather App</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-    body{
-    overflow-x:hidden
-    }
-    body.night-mode {
-      background-color: #444 !important;
-    }
-    body.night-mode input {
-      background-color: #555;
-      color: white;
-    }
-  </style>
-</head>
-<body style="background-color: lightblue;">
-  <form action="" class="mb-4 p-3">
-    <div class="input-group container">
-      <input type="text" class="form-control inp" placeholder="Enter city name"/>
-      <button class="btn btn-info main-fetch">Forecast</button>
-      <button class="btn night" title="Toggle Night Mode">
-        <img src="https://uxwing.com/wp-content/themes/uxwing/download/weather/sun-warm-icon.png" class="night-mode" alt="mode" width="20px"/>
-      </button>
-    </div>
-  </form>
+<script>
+  const btn = document.querySelector('.main-fetch');
+  const inp = document.querySelector('.inp');
+  const cards = document.querySelector('.cards');
 
-  <div class="container">
-    <div class="row justify-content-center g-4 cards">
-      <!-- Weather cards will appear here -->
-    </div>
-  </div>
+  let apiKey = ''; // 🔹 API key variable
 
-  <script>
-    const btn = document.querySelector('.main-fetch');
-    const inp = document.querySelector('.inp');
-    const cards = document.querySelector('.cards');
-
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const city = inp.value.trim();
-
-      if (!city) {
-        cards.innerHTML = '<h3 class="text-danger text-center">Please enter a city name</h3>';
-        return;
-      }
-
-      cards.innerHTML = '<h4 class="text-center">Loading...</h4>';
-
-      fetch('https://32b3cafc-e3fa-4ed1-a18d-34e7e701d0a6-00-1722rgpwfnxtm.sisko.replit.dev/apikey')
-        .then(res => res.json())
-        .then(data => {
-          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${data.apikey}&units=metric`)
-            .then(res => res.json())
-            .then(js => {
-              cards.innerHTML = '';
-
-              if (js.cod === '404') {
-                cards.innerHTML = '<h3 class="text-danger text-center">City not found</h3>';
-              } else if (js.cod === '400') {
-                cards.innerHTML = '<h3 class="text-danger text-center">Empty input</h3>';
-              } else {
-                const dailyForecasts = js.list.filter(item => item.dt_txt.includes("12:00:00"));
-
-                dailyForecasts.forEach(item => {
-                  const dateTime = item.dt_txt;
-
-                  cards.innerHTML += `
-                    <div class="col-md-4 col-sm-6 col-12">
-                      <div class="card h-100 p-3 border border-dark rounded-4">
-                        <div class="d-flex justify-content-between">
-                          <span>${js.city.name}</span>
-                          <span>${dateTime}</span>
-                        </div>
-                        <div class="text-center my-2">
-                          <h1>${item.main.temp}<sup>°</sup>C</h1>
-                          <span>${item.weather[0].main}</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div>
-                            <span><img src="https://uxwing.com/wp-content/themes/uxwing/download/weather/wind-icon.png" style="width:20px" alt=""> ${item.wind.speed} m/s</span><br>
-                            <span><img src="https://cdn-icons-png.flaticon.com/512/2299/2299296.png" style="width:20px" alt=""> ${item.main.pressure} hPa</span><br>
-                            <span><img src="https://cdn-icons-png.flaticon.com/512/8073/8073854.png" style="width:20px" alt=""> ${js.city.population}</span>
-                          </div>
-                          <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" style="width:100px" title="${item.weather[0].description}" alt="">
-                        </div>
-                      </div>
-                    </div>
-                  `;
-                });
-              }
-            })
-            .catch(err => {
-              cards.innerHTML = `<h3 class="text-danger text-center">Failed to fetch weather data</h3>`;
-              console.error(err);
-            });
-        });
+  // 🔹 Fetch API key once when page loads
+  fetch('https://32b3cafc-e3fa-4ed1-a18d-34e7e701d0a6-00-1722rgpwfnxtm.sisko.replit.dev/apikey')
+    .then(res => res.json())
+    .then(data => {
+      apiKey = data.apikey;
+    })
+    .catch(err => {
+      cards.innerHTML = `<h1 style="color:red">Failed to load API key</h1>`;
+      console.error('API key fetch error:', err);
     });
 
-    const night = document.querySelector('.night');
-    night.addEventListener('click', (e) => {
-      e.preventDefault();
-      const nightImg = night.querySelector('img');
-      const body = document.body;
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const city = inp.value.trim();
 
-      body.classList.toggle('night-mode');
+    if (!city) {
+      cards.innerHTML = '<h1 style="color:red">Please enter a city name</h1>';
+      return;
+    }
 
-      if (body.classList.contains('night-mode')) {
-        nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/nature-and-environment/moon-icon.png');
-      } else {
-        nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/weather/sun-warm-icon.png');
-      }
-    });
-  </script>
+    if (!apiKey) {
+      cards.innerHTML = '<h1 style="color:red">API key not loaded yet</h1>';
+      return;
+    }
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`)
+      .then(res => res.json())
+      .then(js => {
+        cards.innerHTML = '';
+
+        if (js.cod == '404') {
+          cards.innerHTML = '<h1 style="color:red">City not found</h1>';
+        } else if (js.cod == '400') {
+          cards.innerHTML = '<h1 style="color:red">Empty input</h1>';
+        } else {
+          for (let i = 0; i < js.list.length; i++) {
+            const dateTime = js.list[i].dt_txt;
+            cards.innerHTML += `
+              <div class="d-flex flex-column col-md-3 m-2" style="border: 2px solid black; border-radius: 20px;">
+                <div class="d-flex flex-row justify-content-between">
+                  <span>${js.city.name}</span>
+                  <span>${dateTime}</span>
+                </div>
+                <div class="d-flex flex-column text-center">
+                  <h1>${js.list[i].main.temp}<sup>o</sup>C</h1>
+                  <span>${js.list[i].weather[0].main}</span>
+                </div>
+                <div class="d-flex flex-row justify-content-between">
+                  <div class="d-flex flex-column">
+                    <span><img src="https://uxwing.com/wp-content/themes/uxwing/download/weather/wind-icon.png" style="width:20px" alt=""> ${js.list[i].wind.speed}</span>
+                    <span><img src="https://cdn-icons-png.flaticon.com/512/2299/2299296.png" style="width:20px" alt=""> ${js.list[i].main.pressure}</span>
+                    <span><img src="https://cdn-icons-png.flaticon.com/512/8073/8073854.png" style="width:20px" alt=""> ${js.city.population}</span>
+                  </div>
+                  <img src="http://openweathermap.org/img/wn/${js.list[i].weather[0].icon}@2x.png" style='width:100px' title='${js.list[i].weather[0].description}' class="card-img-top" alt="">
+                </div>
+              </div>
+            `;
+          }
+        }
+      })
+      .catch(err => {
+        cards.innerHTML = `<h1 style="color:red">Failed to fetch weather data</h1>`;
+        console.error(err);
+      });
+  });
+
+  const night = document.querySelector('.night');
+  night.addEventListener('click', (e) => {
+    e.preventDefault();
+    const nightImg = night.querySelector('img');
+    const body = document.querySelector('body');
+
+    if (nightImg.getAttribute('src').includes('sun-warm-icon')) {
+      nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/nature-and-environment/moon-icon.png');
+      body.style.backgroundColor = 'grey';
+      inp.style.backgroundColor = 'grey';
+    } else {
+      nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/weather/sun-warm-icon.png');
+      body.style.backgroundColor = 'lightblue';
+      inp.style.backgroundColor = '';
+    }
+  });
+</script>
