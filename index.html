@@ -39,12 +39,11 @@
         cards.innerHTML = '<h1 style="color:red">Please enter a city name</h1>';
         return;
       }
-try{
+
       fetch('https://32b3cafc-e3fa-4ed1-a18d-34e7e701d0a6-00-1722rgpwfnxtm.sisko.replit.dev/apikey')
         .then(res => res.json())
         .then(data => {
-          
-        console.log(data)
+          console.log(data);
           fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${data.apikey}&units=metric`)
             .then(res => res.json())
             .then(js => {
@@ -82,16 +81,15 @@ try{
             })
             .catch(err => {
               cards.innerHTML = `<h1 style="color:red">Failed to fetch weather data</h1>`;
+              console.error(err);
             });
         })
         .catch(err => {
           cards.innerHTML = `<h1 style="color:red">Failed to load API key</h1>`;
-        }catch(e){
-    console.log(e)
-}
-    };
-    
-    
+          console.error(err);
+        });
+    });
+
     const night = document.querySelector('.night');
     night.addEventListener('click', (e) => {
       e.preventDefault();
