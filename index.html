@@ -98,9 +98,9 @@ run();
             .catch(err => {
               cards.innerHTML = `<h1 style="color:red">Failed to fetch weather data</h1>`;
               console.error(err);
-            })finally{
-               round.style.display='none'  
-          }
+            }).finally(() => {
+        round.style.display = 'none';
+      })
         })
         
     });
