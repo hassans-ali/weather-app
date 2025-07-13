@@ -19,6 +19,13 @@
   overflow-x: hidden;
   background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80');
 }
+    body.night-mode {
+  background-image: url('https://images.unsplash.com/photo-1606820792772-9dc6019881fa?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
 
   </style>
 </head>
@@ -116,11 +123,11 @@ forecastList.forEach(item => {
 
       if (nightImg.getAttribute('src').includes('sun-warm-icon')) {
         nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/nature-and-environment/moon-icon.png');
-        body.style.backgroundColor = 'grey';
+        body.classList.add('night-mode')
         inp.style.backgroundColor = 'grey';
       } else {
         nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/weather/sun-warm-icon.png');
-        body.style.backgroundColor = 'lightblue';
+        body.classList.add('body')
         inp.style.backgroundColor = '';
       }
     });
