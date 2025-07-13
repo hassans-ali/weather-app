@@ -113,32 +113,7 @@ forecastList.forEach(item => {
         })
         
     });
-function updateOnlineStatus() {
-  const body=document.querySelector('body')
-      const offlineScreen = document.getElementById("offline-screen");
-      if (!navigator.onLine) {
-        
-        body.innerHTML = `<h1>you are offline</h1>`;
-      } else {
-        console.log('why you online')
-         body.innerHTML =  `<form action="" class="mb-3">
-    <div class="input-group">
-      <input type="text" class="form-control inp" placeholder="Enter city name"/>
-      <button class="btn btn-info main-fetch">Forecast</button>
-      <button class="btn night">
-        <img src="https://uxwing.com/wp-content/themes/uxwing/download/weather/sun-warm-icon.png" class="night-mode" alt="" width="20px"/>
-      </button>
-    </div>
-  </form>
 
-  <div class="row cards justify-content-center" style='width:98%'></div>
-      <div class='spinner-border  position-absolute start-50 top-50 translate-middle found' style='display:none;'></div>`
-      }
-    }
-
-    window.addEventListener("load", updateOnlineStatus);
-    window.addEventListener("online", updateOnlineStatus);
-    window.addEventListener("offline", updateOnlineStatus);
     const night = document.querySelector('.night');
     night.addEventListener('click', (e) => {
       e.preventDefault();
