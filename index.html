@@ -127,7 +127,7 @@ forecastList.forEach(item => {
         inp.style.backgroundColor = 'grey';
       } else {
         nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/weather/sun-warm-icon.png');
-        body.classList.add('body')
+        body.classList.remove('night-mode')
         inp.style.backgroundColor = '';
       }
     });
