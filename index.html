@@ -70,29 +70,32 @@ run();
               } else if (js.cod == '400') {
                 cards.innerHTML = '<h1 style="color:red">Empty input</h1>';
               } else {
-                for (let i = 0; i < js.list.length; i++) {
-                  const dateTime = js.list[i].dt_txt;
-                  cards.innerHTML += `
-                    <div class="d-flex flex-column col-md-3 m-2" style="border: 2px solid black; border-radius: 20px;">
-                      <div class="d-flex flex-row justify-content-between">
-                        <span>${js.city.name}</span>
-                        <span>${dateTime}</span>
-                      </div>
-                      <div class="d-flex flex-column text-center">
-                        <h1>${js.list[i].main.temp}<sup>o</sup>C</h1>
-                        <span>${js.list[i].weather[0].main}</span>
-                      </div>
-                      <div class="d-flex flex-row justify-content-between">
-                        <div class="d-flex flex-column">
-                          <span><img src="https://uxwing.com/wp-content/themes/uxwing/download/weather/wind-icon.png" style="width:20px" alt=""> ${js.list[i].wind.speed}</span>
-                          <span><img src="https://cdn-icons-png.flaticon.com/512/2299/2299296.png" style="width:20px" alt=""> ${js.list[i].main.pressure}</span>
-                          <span><img src="https://cdn-icons-png.flaticon.com/512/8073/8073854.png" style="width:20px" alt=""> ${js.city.population}</span>
-                        </div>
-                        <img src="http://openweathermap.org/img/wn/${js.list[i].weather[0].icon}@2x.png" style='width:100px' title='${js.list[i].weather[0].description}' class="card-img-top" alt="">
-                      </div>
-                    </div>
-                  `;
-                }
+                const forecastList = js.list.slice(0, 8); // Only next 24 hours (8 × 3h)
+
+forecastList.forEach(item => {
+  const dateTime = item.dt_txt;
+  cards.innerHTML += `
+    <div class="d-flex flex-column col-md-3 m-2" style="border: 2px solid black; border-radius: 20px;">
+      <div class="d-flex flex-row justify-content-between">
+        <span>${js.city.name}</span>
+        <span>${dateTime}</span>
+      </div>
+      <div class="d-flex flex-column text-center">
+        <h1>${item.main.temp}<sup>o</sup>C</h1>
+        <span>${item.weather[0].main}</span>
+      </div>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-column">
+          <span><img src="https://uxwing.com/wp-content/themes/uxwing/download/weather/wind-icon.png" style="width:20px" alt=""> ${item.wind.speed}</span>
+          <span><img src="https://cdn-icons-png.flaticon.com/512/2299/2299296.png" style="width:20px" alt=""> ${item.main.pressure}</span>
+          <span><img src="https://cdn-icons-png.flaticon.com/512/8073/8073854.png" style="width:20px" alt=""> ${js.city.population}</span>
+        </div>
+        <img src="http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" style='width:100px' title='${item.weather[0].description}' class="card-img-top" alt="">
+      </div>
+    </div>
+  `;
+});
+
               }
             })
             .catch(err => {
