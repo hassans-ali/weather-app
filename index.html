@@ -1,4 +1,4 @@
-d<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -60,7 +60,7 @@ run();
         .then(res => res.json())
         .then(data => {
           console.log(data);
-          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${data.apikey}&units=metric`)
+          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${country}&units=metric&appid=${data.apikey}`)
             .then(res => res.json())
             .then(js => {
               cards.innerHTML = '';
