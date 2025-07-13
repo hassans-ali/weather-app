@@ -35,12 +35,12 @@
     const inp = document.querySelector('.inp');
     const cards = document.querySelector('.cards');
    const round=document.querySelector('.found');
-        const city = inp.value.trim(); // city from input box
+        
 
     
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      
+      const city = inp.value.trim(); // city from input box
       if (!city) {
         cards.innerHTML = '<h1 style="color:red">Please enter a city name</h1>';
         return;
