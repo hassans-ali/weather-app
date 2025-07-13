@@ -75,8 +75,7 @@ run();
               } else if (js.cod == '400') {
                 cards.innerHTML = '<h1 style="color:red">Empty input</h1>';
               } else {
-                const forecastList = js.list.slice(0, 8); // Only next 24 hours (8 × 3h)
-
+const forecastList = js.list.filter(item => item.dt_txt.includes("12:00:00"));
 forecastList.forEach(item => {
   const dateTime = item.dt_txt;
   cards.innerHTML += `
