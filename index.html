@@ -28,7 +28,7 @@
   </form>
 
   <div class="row cards justify-content-between " style='width:98%'></div>
-      <div class='spinner-border d-none position-absolute start-50 top-50 translate-middle found'></div>
+      <div class='spinner-border  position-absolute start-50 top-50 translate-middle found' style='display:none;'></div>
   <script>
     const btn = document.querySelector('.main-fetch');
     const inp = document.querySelector('.inp');
@@ -42,7 +42,7 @@
         cards.innerHTML = '<h1 style="color:red">Please enter a city name</h1>';
         return;
       }
-      round.classList.add('d-block')
+      round.style.display='block'
 
       function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -60,7 +60,7 @@ run();
         .then(res => res.json())
         .then(data => {
           console.log(data);
-          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${country}&units=metric&appid=${data.apikey}`)
+          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${data.apikey}`)
             .then(res => res.json())
             .then(js => {
               cards.innerHTML = '';
