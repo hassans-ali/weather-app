@@ -124,12 +124,12 @@ forecastList.forEach(item => {
       if (nightImg.getAttribute('src').includes('sun-warm-icon')) {
         nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/nature-and-environment/moon-icon.png');
         body.classList.add('night-mode')
-        inp.style.backgroundColor = 'grey';
+        
       } else {
         nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/weather/sun-warm-icon.png');
         body.classList.remove('night-mode')
         inp.style.backgroundColor = '';
-        night.style.backgroundColor='white'
+      
       }
     });
   </script>
