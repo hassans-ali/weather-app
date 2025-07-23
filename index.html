@@ -10,23 +10,20 @@
     * {
       padding: 0;
       margin: 0;
-      
     }
-    
 
     body {
       font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  overflow-x: hidden;
-  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80');
-}
+      overflow-x: hidden;
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80');
+    }
+
     body.night-mode {
-  background-image: url('https://st.depositphotos.com/1447017/1423/i/450/depositphotos_14239881-Rural-night-with-moon.jpg');
-  background-size: cover;
-  background-position: center;
-  color: white;
-}
-
-
+      background-image: url('https://st.depositphotos.com/1447017/1423/i/450/depositphotos_14239881-Rural-night-with-moon.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -41,78 +38,69 @@
   </form>
 
   <div class="row cards justify-content-center" style='width:98%'></div>
-      <div class=' position-absolute found  justify-content-center' style='display:none; width:100%'><h3 >Loading...</h3></div>
-  <script>
+  <div class='position-absolute found justify-content-center' style='display:none; width:100%'><h3>Loading...</h3></div>
 
+  <script>
     const btn = document.querySelector('.main-fetch');
     const inp = document.querySelector('.inp');
     const cards = document.querySelector('.cards');
-   const round=document.querySelector('.found');
-        
+    const round = document.querySelector('.found');
 
-    
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const city = inp.value.trim(); // city from input box
+      const city = inp.value.trim();
       if (!city) {
         cards.innerHTML = '<h1 style="color:red">Please enter a city name</h1>';
         return;
       }
-      round.style.display='flex'
-const apikey = "1039c2abd34762bb9290af789db4909e";
+      round.style.display = 'flex';
 
-const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apikey}`;
-   
+      const apikey = "1039c2abd34762bb9290af789db4909e";
+      const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apikey}`;
 
-      fetch('https://32b3cafc-e3fa-4ed1-a18d-34e7e701d0a6-00-1722rgpwfnxtm.sisko.replit.dev/apikey')
+      fetch(url)
         .then(res => res.json())
-        .then(data => {
-          
-          fetch(url)
-            .then(res => res.json())
-            .then(js => {
-              cards.innerHTML = '';
+        .then(js => {
+          cards.innerHTML = '';
 
-              if (js.cod == '404') {
-                cards.innerHTML = '<h1 style="color:red">City not found</h1>';
-              } else if (js.cod == '400') {
-                cards.innerHTML = '<h1 style="color:red">Empty input</h1>';
-              } else {
-const forecastList = js.list.filter(item => item.dt_txt.includes("12:00:00"));
-forecastList.forEach(item => {
-  const dateTime = item.dt_txt;
-  cards.innerHTML += `
-    <div class="d-flex flex-column col-md-3 m-2" style="border: 2px solid black; border-radius: 20px;">
-      <div class="d-flex flex-row justify-content-between">
-        <span>${js.city.name}</span>
-        <span>${dateTime}</span>
-      </div>
-      <div class="d-flex flex-column text-center">
-        <h1>${item.main.temp}<sup>o</sup>C</h1>
-        <span>${item.weather[0].main}</span>
-      </div>
-      <div class="d-flex flex-row justify-content-between">
-        <div class="d-flex flex-column">
-          <span><img src="https://uxwing.com/wp-content/themes/uxwing/download/weather/wind-icon.png" style="width:20px" alt=""> ${item.wind.speed}</span>
-          <span><img src="https://cdn-icons-png.flaticon.com/512/2299/2299296.png" style="width:20px" alt=""> ${item.main.pressure}</span>
-          <span><img src="https://cdn-icons-png.flaticon.com/512/8073/8073854.png" style="width:20px" alt=""> ${js.city.population}</span>
-        </div>
-        <img src="http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" style='width:100px' title='${item.weather[0].description}' class="card-img-top" alt="">
-      </div>
-    </div>
-  `;
-});
-
-              }
-            })
-            .catch(err => {
-              cards.innerHTML = `<h1 style="color:red">Failed to fetch weather data</h1>`;
-              console.error(err);
-            }).finally(() => {
-        round.style.display = 'none';
-      })
+          if (js.cod == '404') {
+            cards.innerHTML = '<h1 style="color:red">City not found</h1>';
+          } else if (js.cod == '400') {
+            cards.innerHTML = '<h1 style="color:red">Empty input</h1>';
+          } else {
+            const forecastList = js.list.filter(item => item.dt_txt.includes("12:00:00"));
+            forecastList.forEach(item => {
+              const dateTime = item.dt_txt;
+              cards.innerHTML += `
+                <div class="d-flex flex-column col-md-3 m-2" style="border: 2px solid black; border-radius: 20px;">
+                  <div class="d-flex flex-row justify-content-between">
+                    <span>${js.city.name}</span>
+                    <span>${dateTime}</span>
+                  </div>
+                  <div class="d-flex flex-column text-center">
+                    <h1>${item.main.temp}<sup>o</sup>C</h1>
+                    <span>${item.weather[0].main}</span>
+                  </div>
+                  <div class="d-flex flex-row justify-content-between">
+                    <div class="d-flex flex-column">
+                      <span><img src="https://uxwing.com/wp-content/themes/uxwing/download/weather/wind-icon.png" style="width:20px" alt=""> ${item.wind.speed}</span>
+                      <span><img src="https://cdn-icons-png.flaticon.com/512/2299/2299296.png" style="width:20px" alt=""> ${item.main.pressure}</span>
+                      <span><img src="https://cdn-icons-png.flaticon.com/512/8073/8073854.png" style="width:20px" alt=""> ${js.city.population}</span>
+                    </div>
+                    <img src="http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" style='width:100px' title='${item.weather[0].description}' class="card-img-top" alt="">
+                  </div>
+                </div>
+              `;
+            });
+          }
         })
-        
+        .catch(err => {
+          cards.innerHTML = `<h1 style="color:red">Failed to fetch weather data</h1>`;
+          console.error(err);
+        })
+        .finally(() => {
+          round.style.display = 'none';
+        });
     });
 
     const night = document.querySelector('.night');
@@ -123,13 +111,11 @@ forecastList.forEach(item => {
 
       if (nightImg.getAttribute('src').includes('sun-warm-icon')) {
         nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/nature-and-environment/moon-icon.png');
-        body.classList.add('night-mode')
-        
+        body.classList.add('night-mode');
       } else {
         nightImg.setAttribute('src', 'https://uxwing.com/wp-content/themes/uxwing/download/weather/sun-warm-icon.png');
-        body.classList.remove('night-mode')
+        body.classList.remove('night-mode');
         inp.style.backgroundColor = '';
-      
       }
     });
   </script>
